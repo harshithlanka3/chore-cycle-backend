@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import chores, websockets
+from app.routers import chores, websockets, auth
 import os
 from dotenv import load_dotenv
 
@@ -9,7 +9,7 @@ load_dotenv()
 app = FastAPI(
     title="Chore Management API", 
     version="1.0.0",
-    description="Real-time chore management with WebSocket support"
+    description="Real-time chore management with user authentication"
 )
 
 # CORS middleware for React Native
@@ -21,14 +21,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include routers
+app.include_router(auth.router, prefix="/auth")
 app.include_router(chores.router, prefix="/api")
 app.include_router(websockets.router)
 
 @app.get("/")
 async def root():
     return {
-        "message": "Chore Management API",
+        "message": "Chore Management API with Authentication",
         "docs": "/docs",
+        "auth": "/auth",
         "websocket": "/ws"
     }
 
