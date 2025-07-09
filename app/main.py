@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import chores, websockets, auth
+from app.routers import auths, chores, websockets
 import os
 from dotenv import load_dotenv
 
@@ -21,7 +21,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(auth.router, prefix="/api")
+app.include_router(auths.router, prefix="/api")
 app.include_router(chores.router, prefix="/api")
 app.include_router(websockets.router)
 
