@@ -6,7 +6,9 @@ router = APIRouter()
 
 @router.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
+    print(f"WebSocket connection attempt from: {websocket.client}")
     await websocket_manager.connect(websocket)
+    print("WebSocket connected successfully")
     try:
         while True:
             # Keep connection alive and handle incoming messages
